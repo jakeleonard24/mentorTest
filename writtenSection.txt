@@ -1,28 +1,96 @@
 Answer each question in a written format
 
 1. What does semantic HTML mean?
+Semantic html is a way to give meaning to your html code.  It describes what is within the tag so that the developer and the browser have a better idea what its content is.
+Example: <p></p> says 'hey this is a paragraph' while <h1></h1> says 'hey this is a main header'
+
 
 2. What is the box model?
+The term box model as used when talking about design and layout.  All HTML elements can be considered 'boxes'.  There are four levels to each element.  From the inside to the outter most levels:
+     Content: The content of the box, where test or images would be.
+     Padding: An area between the content and the border.  Provides spacing between content and the border for visual appeal.
+     Border: a defined area around padding and conent, can be colored to show exact with and height of box.
+     Margin - in clears an area around the element. Gives space between this element and the next one
+
 
 3. What is the difference between IDs and Classes?
+    As insinuiated by the term classes, they are broad and can cover many different html elements.  My <div></div> here can have the same class as my <p></p> down here if i want them to look the same or have the same format. 
+
+    ID's are unique no two elements can have the same ID, so if my <div></div> up here has an ID my <p></p> cannot have that ID.
+    Also, ID's take presedence over classes, so if my <div></div> and my <p></p> have the same class and in that class they have background-color: blue, and the ID on my <div></div> says background-color: red, the <div></div> will be red.
 
 4. What does the z-index do?
+    Think of z-index as layers.  If an element has a z-index of 0 it is on the very bottom of the stack. If an element has a z-index of 1, it is a layer above the element at index 0.  What does that mean? Well, if the element at 0 overlaps the element at 1 the element with the higher z-index will show in front of the element with the lower z-index
 
 5. Summarize what the keyword 'this' is used for?
+   The keyword 'this' has various uses.  It is most commonly used, at least in the cases that i've run into most often so far in this class, to bind properties and values to the appropiate scoped 'this' object.  So in react, when you're in a component and you write a function and you bind it to 'this' function add(){ 1+1  } (this.add = this.add.bind('this)) you're essentially doing this
+
+   this = {
+       add: add()
+   }
+
+Then when you call a function using this.add you are just referencing the value of that function stored in the 'this' object.
 
 6. What is a callback?
+    A callback is when a function uses another function as a argument, and that function is then executed inside the function it is passed into.  Sound confusing?  It doesn't necessarily have to be.  More often then not callbacks are used in order to make sure that the first function is run before the second. 
+
+    Example: function drinkSoda(){
+        alert('Yumm Soda');
+    }
+
+    function burp(){
+        console.log('burpppppp')
+    }
+
+    drinkSoda();
+    burp();
+
+Now everyone knows that one dont burp untill after you drink soda.  And in this example, the burp function is invoked after the drinkSoda() function but that doesn't mean that it will necessarily always finish first, especially with more complex functions.  So in some cases, you will burp before even drinking your soda.  Bizarre to even imagine I know.  So to ensure that it doesn't happen that way:
+
+function drinkSoda(callback){
+    alert('Yumm Soda');
+    callback()
+}
+
+drinkSoda(burp(){console.log('burpppppp)})
+
+This way the burp function is passed as an arguement to the drinkSoda function, ensuring that there will be no burping untill the soda is drank.
 
 7. What is a closure?
+    a closure refers to a function, its scope, and the scope outside of the function.  when a function is declared a closure is also created.  What this does is make it so variables within the closure, or the function within the closure, cannot be accessed outside of the function. HOWEVER, the function within the closure can still access variables declared outside the function as long as they were freely declared. Example:
+
+        function closure(){
+            var foo = 'bar'
+        }
+
+        console.log(foo)
+    In this is example, the console log will not show 'bar' because foo is undefined outside the scope of the function.  This is because of a closure.
 
 8. How does prototype work?
+    Javascript objects inherit properties and methods from there prototype.  A string is a prototype that has inherit methods like .indexOf() and .split() and .length.  Arrays are a prototype with inherit methods as well, like .join() and .push().  You can use the prototype keyword to add to those inherit methods.
 
 9. What is MVC?
+    MVC stands for MODEL VIEW CONTROLLER.  It is a pattern for effectively designing a user interface.  It focuses on three main components.
+
+    Model - the data, the structure of the data, 
+    View - everything the user can see and interact with.
+    Controller - the stuff that makes what the user does in view, effect the data.
+
+    In essence for what we've learned so far, Model is the database, view is the html css, the user view, controller is javascript and functionality. 
 
 10. What is the component lifecycle?
+    The component lifecycle are the steps a component goes through in its time from refresh to refresh.
+        First Mounting, then Updating, then Unmounting, then Error Handling.
+
+        Each one of these steps have lifecycle methods that can be used to your benefit in order to get things to run when you want them to.
 
 11. What is REST?
+    REST or Representational state transfer is basically a style of building things that communicate with each other over the internet.  As opposed to SOAP, REST is idealized for cloud based API's beause of les required bandwidth and its ease of use.
 
 12. Name three ways of getting data from the URL using express
+    attach it to the then remove it from the request object.
+    get the value from a URL Parameter
+    Add a query string to the end of your URL
 
 create table users (
 id serial,
@@ -33,9 +101,19 @@ email varchar(255)
 12. Given the Schema above, write the following four basic CRUD db queries using postgres syntax
 
 -Get all users:
+        SELECT * FROM users;
 
 -Create a new user with the name of 'your name' and an email of 'fake@fake.com':
+    INSERT INTO users 
+    (name, email)
+    VALUES 
+    ('your name', 'fake@fake.com');
 
 -Update the newly created user's name to 'Bobby Boy':
+    UPDATE users
+    SET name = 'Bobby Boy'
+    WHERE name = 'your name';
 
 -Delete the newly updated user:
+    DELETE FROM users
+    WHERE name = 'Bobby Boy';
